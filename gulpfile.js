@@ -87,17 +87,15 @@ gulp.task('styles', function () {
     'app/styles/**/*.css',
     'app/styles/components/components.scss'
   ])
-    .pipe($.changed('styles', {extension: '.scss'}))
-    .pipe($.sass({
-      precision: 10
-    }))
-    .on('error', console.error.bind(console))
-    .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
-    .pipe(gulp.dest('.tmp/styles'))
-    // Concatenate And Minify Styles
-    .pipe($.if('*.css', $.csso()))
-    .pipe(gulp.dest('dist/styles'))
-    .pipe($.size({title: 'styles'}));
+  .pipe($.rubySass({
+            style: 'expanded',
+            precision: 10
+  }))
+  .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
+  .pipe(gulp.dest('.tmp/styles'))
+  .pipe($.if('*.css', $.csso()))
+  .pipe(gulp.dest('dist/styles'))
+  .pipe($.size({title: 'styles'}));
 });
 
 // Scan Your HTML For Assets & Optimize Them
